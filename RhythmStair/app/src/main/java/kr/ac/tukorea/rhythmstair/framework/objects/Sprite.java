@@ -1,5 +1,6 @@
 package kr.ac.tukorea.rhythmstair.framework.objects;
 
+import android.database.MergeCursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -7,6 +8,7 @@ import android.graphics.RectF;
 
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
 import kr.ac.tukorea.rhythmstair.framework.resource.BitmapLoader;
+import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
 
 public class Sprite implements IGameObject {
     private static final String TAG = Sprite.class.getSimpleName();
@@ -22,6 +24,28 @@ public class Sprite implements IGameObject {
     public Sprite(int mipmapId) {
         if (mipmapId != 0) {
             bitmap = BitmapLoader.get(mipmapId);
+        }
+    }
+
+    public Sprite(int mipmapId, float x, float y, float width, float height) {
+        if (mipmapId != 0) {
+            bitmap = BitmapLoader.get(mipmapId);
+
+            this.x = Metrics.width * x;
+            this.y = Metrics.height * y;
+
+            if (width == 0) {
+                this.width = this.height = Metrics.height * height / 2;
+            }
+            else if (height == 0) {
+                this.width = this.height = Metrics.width * width / 2;
+            }
+            else {
+                this.width = Metrics.width * width / 2;
+                this.height = Metrics.height * height / 2;
+            }
+            dstRect.set(this.x - this.width, this.y - this.height,
+                    this.x + this.width, this.y + this.height);
         }
     }
 

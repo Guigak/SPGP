@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+        startActivity(new Intent(this, RhythmStairActivity.class));
     }
 
     @Override
