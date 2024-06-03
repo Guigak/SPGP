@@ -3,7 +3,6 @@ package kr.ac.tukorea.rhythmstair.framework.objects;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -99,7 +98,6 @@ public class HorizontalScrollableSprites implements IGameObject {
     }
 
     public boolean onTouch(MotionEvent event) {
-        Log.d(TAG, "onTouch: "+oldPositions[0]);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());

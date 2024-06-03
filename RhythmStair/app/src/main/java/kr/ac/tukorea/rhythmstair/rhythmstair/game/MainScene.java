@@ -57,19 +57,41 @@ public class MainScene extends Scene {
         super.update(elapsedSeconds);
     }
 
+    private HorizontalScrollableSprites targetSprites = null;
+
     @Override
     public boolean onTouch(MotionEvent event) {
         float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());
         float inputY = tempPoints[1] / Metrics.height;
 
-        if (inputY > titlesPositionY && inputY < titlesPositionY + titlesHeight) {
-            return titleSprites.onTouch(event);
-        }
-        if (inputY > difficultyPositionY && inputY < difficultyPositionY + difficultyHeight) {
-            return difficultySprites.onTouch(event);
-        }
-        if (inputY > charactersPositionY && inputY < charactersPositionY + charactersHeight) {
-            return charactersSprites.onTouch(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (inputY > titlesPositionY && inputY < titlesPositionY + titlesHeight) {
+                    targetSprites = titleSprites;
+                    return titleSprites.onTouch(event);
+                }
+                if (inputY > difficultyPositionY && inputY < difficultyPositionY + difficultyHeight) {
+                    targetSprites = difficultySprites;
+                    return difficultySprites.onTouch(event);
+                }
+                if (inputY > charactersPositionY && inputY < charactersPositionY + charactersHeight) {
+                    targetSprites = charactersSprites;
+                    return charactersSprites.onTouch(event);
+                }
+            case MotionEvent.ACTION_MOVE:
+                if (targetSprites == null) {
+                    return true;
+                }
+
+                return targetSprites.onTouch(event);
+            case MotionEvent.ACTION_UP:
+                if (targetSprites == null) {
+                    return true;
+                }
+
+                targetSprites.onTouch(event);
+                targetSprites = null;
+                return true;
         }
 
         return false;
