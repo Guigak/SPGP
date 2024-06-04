@@ -7,7 +7,7 @@ import kr.ac.tukorea.rhythmstair.R;
 import kr.ac.tukorea.rhythmstair.framework.objects.DiagonalScrollBackground;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
-import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
+import kr.ac.tukorea.rhythmstair.framework.resource.SoundPlayer;
 
 public class StartScene extends Scene {
     private static final String TAG = StartScene.class.getSimpleName();
@@ -36,5 +36,15 @@ public class StartScene extends Scene {
     public boolean onTouch(MotionEvent event) {
         new MainScene().push();
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        SoundPlayer.playSound(R.raw.work_of_a_cat);
+    }
+
+    @Override
+    protected void onEnd() {
+        SoundPlayer.stopSound();
     }
 }
