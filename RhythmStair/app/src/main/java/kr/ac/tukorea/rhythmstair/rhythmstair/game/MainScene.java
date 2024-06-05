@@ -7,6 +7,7 @@ import kr.ac.tukorea.rhythmstair.framework.objects.DiagonalScrollBackground;
 import kr.ac.tukorea.rhythmstair.framework.objects.HorizontalScrollableSprites;
 import kr.ac.tukorea.rhythmstair.framework.objects.Button;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
+import kr.ac.tukorea.rhythmstair.framework.resource.SoundPlayer;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
 import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
 
@@ -108,5 +109,15 @@ public class MainScene extends Scene {
         }
 
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        SoundPlayer.playSound(R.raw.work_of_a_cat);
+    }
+
+    @Override
+    protected void onPause() {
+        SoundPlayer.stopSound();
     }
 }
