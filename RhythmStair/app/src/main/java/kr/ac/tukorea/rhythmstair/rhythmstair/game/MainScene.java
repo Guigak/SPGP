@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import kr.ac.tukorea.rhythmstair.R;
 import kr.ac.tukorea.rhythmstair.framework.objects.DiagonalScrollBackground;
 import kr.ac.tukorea.rhythmstair.framework.objects.HorizontalScrollableSprites;
+import kr.ac.tukorea.rhythmstair.framework.objects.Button;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
 import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
@@ -13,20 +14,28 @@ public class MainScene extends Scene {
     private static final String TAG = MainScene.class.getSimpleName();
 
     private final HorizontalScrollableSprites titleSprites = new HorizontalScrollableSprites();
-    private float titlesPositionY = 0.1f;
+    private float titlesPositionY = 0.0f;
     private float titlesHeight = 0.2f;
 
     private final HorizontalScrollableSprites difficultySprites = new HorizontalScrollableSprites();
-    private float difficultyPositionY = 0.3f;
+    private float difficultyPositionY = 0.2f;
     private float difficultyHeight = 0.05f;
 
     private final HorizontalScrollableSprites charactersSprites = new HorizontalScrollableSprites();
-    private float charactersPositionY = 0.4f;
+    private float charactersPositionY = 0.25f;
     private float charactersWidth = 0.5f;
     private float charactersHeight = 0.5f;
 
+    private final Button playButton = new Button(R.mipmap.playbutton, 0.5f, 0.9f, 0.3f, 0.1f) {
+        @Override
+        public boolean onTouch(MotionEvent event) {
+            new PlayScene().push();
+            return true;
+        }
+    };
+
     public enum Layer {
-        titles, difficulty, characters, COUNT
+        titles, difficulty, characters, button, COUNT
     }
 
     public MainScene() {
@@ -50,6 +59,8 @@ public class MainScene extends Scene {
         charactersSprites.setWidth(charactersWidth);
         charactersSprites.setHeight(charactersHeight);
         add(Layer.characters, charactersSprites);
+
+        add(Layer.button, playButton);
     }
 
     @Override
@@ -78,6 +89,8 @@ public class MainScene extends Scene {
                     targetSprites = charactersSprites;
                     return charactersSprites.onTouch(event);
                 }
+
+                return playButton.onTouch(event);
             case MotionEvent.ACTION_MOVE:
                 if (targetSprites == null) {
                     return true;
