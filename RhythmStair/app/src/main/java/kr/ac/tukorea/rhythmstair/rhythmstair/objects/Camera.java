@@ -16,10 +16,12 @@ public class Camera {
 
     public void moveLeft() {
         dx -= 1;
+        dy += 1;
     }
 
     public void moveRight() {
         dx += 1;
+        dy += 1;
     }
 
     public void moveUp() {
