@@ -3,6 +3,7 @@ package kr.ac.tukorea.rhythmstair.framework.objects;
 import android.database.MergeCursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -77,5 +78,9 @@ public class Sprite implements IGameObject {
     @Override
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bitmap, srcRect, dstRect, null);
+    }
+
+    public void draw(Canvas canvas, Paint paint) {
+        canvas.drawBitmap(bitmap, srcRect, dstRect, paint);
     }
 }
