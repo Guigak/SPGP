@@ -66,6 +66,17 @@ public class Sprite implements IGameObject {
         dstRect.set(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
     }
 
+    public void setDstRect(float x, float y, float width, float height) {
+        this.x = Metrics.width * x;
+        this.y = Metrics.height * y;
+
+        this.width = Metrics.width * width / 2;
+        this.height = Metrics.height * height / 2;
+
+        dstRect.set(this.x - this.width, this.y - this.height,
+                this.x + this.width, this.y + this.height);
+    }
+
     @Override
     public void update(float elapsedSeconds) {
         float timeDx = dx * elapsedSeconds;
