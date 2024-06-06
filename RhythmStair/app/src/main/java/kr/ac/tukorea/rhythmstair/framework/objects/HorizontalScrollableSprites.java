@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
-import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
 import kr.ac.tukorea.rhythmstair.framework.resource.BitmapLoader;
 import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
 
@@ -117,5 +116,9 @@ public class HorizontalScrollableSprites implements IGameObject {
         }
 
         return false;
+    }
+
+    public int getCurrNum() {
+        return currNum;
     }
 }
