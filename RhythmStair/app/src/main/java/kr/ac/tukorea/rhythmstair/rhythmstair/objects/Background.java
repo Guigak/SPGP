@@ -1,8 +1,6 @@
 package kr.ac.tukorea.rhythmstair.rhythmstair.objects;
 
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.view.MotionEvent;
 
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
@@ -21,7 +19,7 @@ public class Background extends Sprite implements IGameObject {
 
     @Override
     public void update(float elapsedSeconds) {
-        srcRect.top = top - Camera.dy;
-        srcRect.bottom = bottom - Camera.dy;
+        srcRect.top = top - Camera.numX;
+        srcRect.bottom = bottom - Camera.numY;
     }
 }

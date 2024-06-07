@@ -13,21 +13,21 @@ public class Stair implements IGameObject {
     private Sprite inSprite = null;
     private Sprite outSprite = null;
 
-    private float width = 0.2f, height = 0.05f;
+    public static float width = 0.2f, height = 0.05f;
 
     private float time = 0.0f;
     private float totalElapsedSeconds = 0.0f;
     private float delayTime = 1.0f;
 
-    private float oldX, oldY;
+    private float oldX = 0.5f, oldY = 0.8f;
 
     public enum Maps {
         Hyperspace_Rhythm, Time_Shift
     }
 
     public Stair(int numY, int numX, Maps map, int type, float time) {
-        oldX = 0.5f + numX * width;
-        oldY = 0.8f - numY * height;
+        oldX = oldX + numX * width;
+        oldY = oldY - numY * height;
         setResourceId(map, type);
         this.time = time;
     }
@@ -71,8 +71,8 @@ public class Stair implements IGameObject {
 
     @Override
     public void update(float elapsedSeconds) {
-        float newX = oldX - Camera.dx * width;
-        float newY = oldY + Camera.dy * height;
+        float newX = oldX - Camera.nowX;
+        float newY = oldY + Camera.nowY;
 
         totalElapsedSeconds += elapsedSeconds;
 
