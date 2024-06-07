@@ -30,7 +30,7 @@ public class MainScene extends Scene {
     private final Button playButton = new Button(R.mipmap.playbutton, 0.5f, 0.9f, 0.3f, 0.1f) {
         @Override
         public boolean onTouch(MotionEvent event) {
-            new PlayScene().push();
+            new PlayScene(titleSprites.getCurrNum(), difficultySprites.getCurrNum(), charactersSprites.getCurrNum()).push();
             return true;
         }
     };
