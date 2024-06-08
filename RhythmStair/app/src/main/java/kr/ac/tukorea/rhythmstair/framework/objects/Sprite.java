@@ -70,8 +70,16 @@ public class Sprite implements IGameObject {
         this.x = Metrics.width * x;
         this.y = Metrics.height * y;
 
-        this.width = Metrics.width * width / 2;
-        this.height = Metrics.height * height / 2;
+        if (width == 0) {
+            this.width = this.height = Metrics.height * height / 2;
+        }
+        else if (height == 0) {
+            this.width = this.height = Metrics.width * width / 2;
+        }
+        else {
+            this.width = Metrics.width * width / 2;
+            this.height = Metrics.height * height / 2;
+        }
 
         dstRect.set(this.x - this.width, this.y - this.height,
                 this.x + this.width, this.y + this.height);

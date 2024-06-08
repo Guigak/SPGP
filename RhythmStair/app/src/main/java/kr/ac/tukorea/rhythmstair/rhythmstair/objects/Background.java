@@ -10,7 +10,9 @@ public class Background extends Sprite implements IGameObject {
 
     private final int left = 0, top = 3200, right = 900, bottom = 4800;
 
-    private int  dy = 0;
+    private int  targetY = 0;
+    private float nowOffsetY = 0.0f;
+    private float lagDrgree = 0.5f;
 
     public Background(int bitmapResId, float cx, float cy, float width, float height) {
         super(bitmapResId, cx, cy, width, height);
@@ -19,7 +21,10 @@ public class Background extends Sprite implements IGameObject {
 
     @Override
     public void update(float elapsedSeconds) {
-        srcRect.top = top - Camera.numX;
-        srcRect.bottom = bottom - Camera.numY;
+        targetY = Camera.nowX;
+        nowOffsetY = nowOffsetY + (targetY - nowOffsetY) * lagDrgree;
+
+        srcRect.top = top - (int)(nowOffsetY);
+        srcRect.bottom = bottom - (int)(nowOffsetY);
     }
 }

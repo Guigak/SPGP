@@ -71,8 +71,8 @@ public class Stair implements IGameObject {
 
     @Override
     public void update(float elapsedSeconds) {
-        float newX = oldX - Camera.nowX;
-        float newY = oldY + Camera.nowY;
+        float newX = oldX - Camera.nowOffsetX;
+        float newY = oldY + Camera.nowOffsetY;
 
         totalElapsedSeconds += elapsedSeconds;
 

@@ -7,44 +7,54 @@ import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
 public class Camera implements IGameObject {
     private static final String TAG = Camera.class.getSimpleName();
 
-    public static int numX = 0, numY = 0;
-    private static float targetX = 0.0f, targetY = 0.0f;
-    public static float nowX = 0.0f, nowY = 0.0f;
-    private static float lagDegree = 0.5f;
+    public static int oldX = 0, oldY = 0;
+    public static int nowX = 0, nowY = 0;
+    public static float targetX = 0.0f, targetY = 0.0f;
+    public static float nowOffsetX = 0.0f, nowOffsetY = 0.0f;
+    public static float lagDegree = 0.5f;
 
     public Camera() {
         clear();
     }
 
     public void clear() {
-        numX = 0;
-        numY = 0;
+        oldX = 0;
+        oldY = 0;
+        nowX = 0;
+        nowY = 0;
+
         targetX = 0.0f;
         targetY = 0.0f;
-        nowX = 0.0f;
-        nowY = 0.0f;
+
+        nowOffsetX = 0.0f;
+        nowOffsetY = 0.0f;
     }
 
     public void moveLeft() {
-        numX -= 1;
-        numY += 1;
+        oldX = nowX;
+        oldY = nowY;
+        nowX -= 1;
+        nowY += 1;
     }
 
     public void moveRight() {
-        numX += 1;
-        numY += 1;
+        oldX = nowX;
+        oldY = nowY;
+        nowX += 1;
+        nowY += 1;
     }
 
     public void moveUp() {
-        targetY += 1;
+        oldY = nowY;
+        nowY += 1;
     }
 
     @Override
     public void update(float elapsedSeconds) {
-        targetX = numX * Stair.width;
-        targetY = numY * Stair.height;
-        nowX = nowX + (targetX - nowX) * lagDegree;
-        nowY = nowY + (targetY - nowY) * lagDegree;
+        targetX = nowX * Stair.width;
+        targetY = nowY * Stair.height;
+        nowOffsetX = nowOffsetX + (targetX - nowOffsetX) * lagDegree;
+        nowOffsetY = nowOffsetY + (targetY - nowOffsetY) * lagDegree;
     }
 
     @Override
