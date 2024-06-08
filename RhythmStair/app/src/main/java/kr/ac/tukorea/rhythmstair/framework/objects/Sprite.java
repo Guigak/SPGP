@@ -66,6 +66,14 @@ public class Sprite implements IGameObject {
         dstRect.set(x - width / 2, y - height / 2, x + width / 2, y + height / 2);
     }
 
+    public void setSrcRect(int x, int y, int width, int height) {
+        if (srcRect == null) {
+            srcRect = new Rect();
+        }
+
+        srcRect.set(x, y, x + width, y + height);
+    }
+
     public void setDstRect(float x, float y, float width, float height) {
         this.x = Metrics.width * x;
         this.y = Metrics.height * y;
