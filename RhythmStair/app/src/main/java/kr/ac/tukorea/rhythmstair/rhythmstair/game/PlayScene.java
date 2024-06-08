@@ -25,7 +25,7 @@ public class PlayScene extends Scene {
     public PlayScene(int map, int diff, int chr) {
         initLayers(Layer.COUNT);
 
-        add(Layer.bg, new Background(R.mipmap.hyperspace_rhythm_bg, 0.5f, 0.5f, 1.0f, 1.0f));
+        addBackground(map);
 
         add(Layer.cam, camera);
 
@@ -34,6 +34,17 @@ public class PlayScene extends Scene {
 
         for (int i = 0; i < 20; ++i) {
             add(Layer.stair, new Stair(i, i, Stair.Maps.Hyperspace_Rhythm, i % 3, (float)(i)));
+        }
+    }
+
+    public void addBackground(int map) {
+        switch (map) {
+            case 0:
+                add(Layer.bg, new Background(R.mipmap.hyperspace_rhythm_bg, 0.5f, 0.5f, 1.0f, 1.0f));
+                break;
+            case 1:
+                add(Layer.bg, new Background(R.mipmap.time_shift_bf_light, 0.5f, 0.5f, 1.0f, 1.0f));
+                break;
         }
     }
 
@@ -50,11 +61,11 @@ public class PlayScene extends Scene {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (inputX > 0.5f) {
                 character.move();
-                camera.moveRight();
+                camera.move();
             }
             else {
                 character.move();
-                camera.moveLeft();
+                camera.turn();
             }
         }
         return true;

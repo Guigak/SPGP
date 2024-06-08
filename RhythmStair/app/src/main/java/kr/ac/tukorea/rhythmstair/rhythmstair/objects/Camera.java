@@ -7,6 +7,8 @@ import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
 public class Camera implements IGameObject {
     private static final String TAG = Camera.class.getSimpleName();
 
+    private int direction = 1;
+
     public static int oldX = 0, oldY = 0;
     public static int nowX = 0, nowY = 0;
     public static float targetX = 0.0f, targetY = 0.0f;
@@ -28,6 +30,22 @@ public class Camera implements IGameObject {
 
         nowOffsetX = 0.0f;
         nowOffsetY = 0.0f;
+    }
+
+    public void move() {
+        oldX = nowX;
+        oldY = nowY;
+        nowX += direction;
+        nowY += 1;
+    }
+
+    public void turn() {
+        direction *= -1;
+
+        oldX = nowX;
+        oldY = nowY;
+        nowX += direction;
+        nowY += 1;
     }
 
     public void moveLeft() {
