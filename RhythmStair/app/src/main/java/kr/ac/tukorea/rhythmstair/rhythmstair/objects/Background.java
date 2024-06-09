@@ -21,7 +21,7 @@ public class Background extends Sprite implements IGameObject {
 
     @Override
     public void update(float elapsedSeconds) {
-        targetY = Camera.nowX;
+        targetY = Camera.nowY;
         nowOffsetY = nowOffsetY + (targetY - nowOffsetY) * lagDrgree;
 
         srcRect.top = top - (int)(nowOffsetY);

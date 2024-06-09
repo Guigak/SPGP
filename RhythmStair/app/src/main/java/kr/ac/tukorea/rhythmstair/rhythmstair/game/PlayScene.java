@@ -10,6 +10,7 @@ import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Background;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Camera;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Character;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Stair;
+import kr.ac.tukorea.rhythmstair.rhythmstair.objects.StairManager;
 
 public class PlayScene extends Scene {
     private static final String TAG = PlayScene.class.getSimpleName();
@@ -18,8 +19,10 @@ public class PlayScene extends Scene {
 
     private Character character = null;
 
+    private StairManager stairManager = null;
+
     public enum Layer {
-        bg, cam, character, stair, COUNT
+        bg, cam, character, manager, COUNT
     }
 
     public PlayScene(int map, int diff, int chr) {
@@ -32,9 +35,8 @@ public class PlayScene extends Scene {
         character = new Character(chr);
         add(Layer.character, character);
 
-        for (int i = 0; i < 20; ++i) {
-            add(Layer.stair, new Stair(i, i, Stair.Maps.Hyperspace_Rhythm, i % 3, (float)(i)));
-        }
+        stairManager = new StairManager(map, diff);
+        add(Layer.manager, stairManager);
     }
 
     public void addBackground(int map) {

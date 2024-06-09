@@ -25,15 +25,15 @@ public class Stair implements IGameObject {
         Hyperspace_Rhythm, Time_Shift
     }
 
-    public Stair(int numY, int numX, Maps map, int type, float time) {
+    public Stair(int numY, int numX, int map, int type, float time) {
         oldX = oldX + numX * width;
         oldY = oldY - numY * height;
         setResourceId(map, type);
         this.time = time;
     }
 
-    private void setResourceId(Maps map, int type) {
-        if(map == Maps.Hyperspace_Rhythm) {
+    private void setResourceId(int map, int type) {
+        if(map == 0) {
             switch(type) {
                 case 0:
                     inSprite = new Sprite(R.mipmap.hyperspace_rhythm_block_in_r, oldX, oldY, width, height);
@@ -49,7 +49,7 @@ public class Stair implements IGameObject {
                     break;
             }
         }
-        else if (map == Maps.Time_Shift) {
+        else if (map == 1) {
             switch (type) {
                 case 0:
                     inSprite = new Sprite(R.mipmap.time_shift_block_in_1, oldX, oldY, width, height);
