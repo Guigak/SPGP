@@ -10,6 +10,8 @@ public class Background extends Sprite implements IGameObject {
 
     private final int left = 0, top = 3200, right = 900, bottom = 4800;
 
+    private int stairsNum = 0;
+
     private int  targetY = 0;
     private float nowOffsetY = 0.0f;
     private float lagDrgree = 0.5f;
@@ -19,9 +21,13 @@ public class Background extends Sprite implements IGameObject {
         srcRect = new Rect(left, top, right, bottom);
     }
 
+    public void setStairsNum(int num) {
+        stairsNum = num;
+    }
+
     @Override
     public void update(float elapsedSeconds) {
-        targetY = Camera.nowY;
+        targetY = Camera.nowY * (top / stairsNum);
         nowOffsetY = nowOffsetY + (targetY - nowOffsetY) * lagDrgree;
 
         srcRect.top = top - (int)(nowOffsetY);

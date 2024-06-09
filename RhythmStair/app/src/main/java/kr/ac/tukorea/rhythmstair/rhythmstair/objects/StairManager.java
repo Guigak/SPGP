@@ -21,8 +21,7 @@ public class StairManager implements IGameObject {
 
     private ArrayList<Stair> stairs = new ArrayList<>();
 
-    public StairManager(int map, int diff) {
-        loadStairs(map, diff);
+    public StairManager() {
     }
 
     public int loadStairs(int map, int diff) {
@@ -92,7 +91,11 @@ public class StairManager implements IGameObject {
             return -1;
         }
 
-        return stairNum;
+        return stairNum - 1;
+    }
+
+    public boolean judge() {
+        return true;
     }
 
     @Override

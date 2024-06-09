@@ -15,6 +15,8 @@ import kr.ac.tukorea.rhythmstair.rhythmstair.objects.StairManager;
 public class PlayScene extends Scene {
     private static final String TAG = PlayScene.class.getSimpleName();
 
+    private Background background = null;
+
     private final Camera camera = new Camera();
 
     private Character character = null;
@@ -35,17 +37,20 @@ public class PlayScene extends Scene {
         character = new Character(chr);
         add(Layer.character, character);
 
-        stairManager = new StairManager(map, diff);
+        stairManager = new StairManager();
+        background.setStairsNum(stairManager.loadStairs(map, diff));
         add(Layer.manager, stairManager);
     }
 
     public void addBackground(int map) {
         switch (map) {
             case 0:
-                add(Layer.bg, new Background(R.mipmap.hyperspace_rhythm_bg, 0.5f, 0.5f, 1.0f, 1.0f));
+                background = new Background(R.mipmap.hyperspace_rhythm_bg, 0.5f, 0.5f, 1.0f, 1.0f);
+                add(Layer.bg, background);
                 break;
             case 1:
-                add(Layer.bg, new Background(R.mipmap.time_shift_bf_light, 0.5f, 0.5f, 1.0f, 1.0f));
+                background = new Background(R.mipmap.time_shift_bf_light, 0.5f, 0.5f, 1.0f, 1.0f);
+                add(Layer.bg, background);
                 break;
         }
     }
