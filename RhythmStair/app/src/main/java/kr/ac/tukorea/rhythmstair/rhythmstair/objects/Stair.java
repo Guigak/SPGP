@@ -67,6 +67,10 @@ public class Stair implements IGameObject {
         }
     }
 
+    public float getTime() {
+        return time;
+    }
+
     private Paint paint = new Paint();
 
     @Override

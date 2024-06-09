@@ -15,6 +15,8 @@ import kr.ac.tukorea.rhythmstair.rhythmstair.objects.StairManager;
 public class PlayScene extends Scene {
     private static final String TAG = PlayScene.class.getSimpleName();
 
+    public static float playTime = 0.0f;
+
     private Background background = null;
 
     private final Camera camera = new Camera();
@@ -58,6 +60,7 @@ public class PlayScene extends Scene {
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
+        playTime += elapsedSeconds;
     }
 
     @Override
@@ -74,7 +77,16 @@ public class PlayScene extends Scene {
                 character.move();
                 camera.turn();
             }
+
+            if (stairManager.judge() == StairManager.Judge.MISS) {
+                new EndScene().push();
+            }
         }
         return true;
+    }
+
+    @Override
+    protected void onStart() {
+        playTime = 0.0f;
     }
 }

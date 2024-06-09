@@ -15,11 +15,15 @@ import java.util.ArrayList;
 
 import kr.ac.tukorea.rhythmstair.framework.activity.GameActivity;
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
+import kr.ac.tukorea.rhythmstair.rhythmstair.game.PlayScene;
 
 public class StairManager implements IGameObject {
     private static String TAG = StairManager.class.getSimpleName();
 
     private ArrayList<Stair> stairs = new ArrayList<>();
+
+    private float perfectTime = 0.1f;
+    private float farTime = 0.5f;
 
     public StairManager() {
     }
@@ -94,8 +98,25 @@ public class StairManager implements IGameObject {
         return stairNum - 1;
     }
 
-    public boolean judge() {
-        return true;
+    public enum Judge {
+        PERFECT, LATE, EARLY, MISS
+    }
+
+    public Judge judge() {
+        float stairTime = stairs.get(Camera.nowY).getTime();
+
+        if (stairTime >= PlayScene.playTime - perfectTime && stairTime <= PlayScene.playTime + perfectTime) {
+            return Judge.PERFECT;
+        }
+        else if (stairTime >= PlayScene.playTime - farTime && stairTime <= PlayScene.playTime - perfectTime) {
+            return Judge.EARLY;
+        }
+        else if (stairTime >= PlayScene.playTime + perfectTime && stairTime <= PlayScene.playTime + farTime) {
+            return Judge.LATE;
+        }
+        else {
+            return Judge.MISS;
+        }
     }
 
     @Override
