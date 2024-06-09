@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import kr.ac.tukorea.rhythmstair.R;
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
+import kr.ac.tukorea.rhythmstair.rhythmstair.game.PlayScene;
 
 public class Stair implements IGameObject {
     private static String TAG = Stair.class.getSimpleName();
@@ -84,7 +85,8 @@ public class Stair implements IGameObject {
         float newX = oldX - Camera.nowOffsetX;
         float newY = oldY + Camera.nowOffsetY;
 
-        totalElapsedSeconds += elapsedSeconds;
+        totalElapsedSeconds = PlayScene.playTime;
+        //totalElapsedSeconds += elapsedSeconds;
 
         if (totalElapsedSeconds < time - delayTime) {
             paint.setAlpha(0);
