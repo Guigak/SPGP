@@ -1,5 +1,6 @@
 package kr.ac.tukorea.rhythmstair.rhythmstair.objects;
 
+import android.content.ClipboardManager;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 
@@ -103,6 +104,10 @@ public class StairManager implements IGameObject {
     }
 
     public Judge judge() {
+        if (stairs.get(Camera.nowY).getNumX() != Camera.nowX) {
+            return Judge.MISS;
+        }
+
         float stairTime = stairs.get(Camera.nowY).getTime();
 
         if (stairTime >= PlayScene.playTime - perfectTime && stairTime <= PlayScene.playTime + perfectTime) {

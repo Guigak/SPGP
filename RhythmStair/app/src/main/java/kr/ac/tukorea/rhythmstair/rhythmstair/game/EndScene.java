@@ -35,4 +35,9 @@ public class EndScene extends Scene {
 
         return false;
     }
+
+    @Override
+    public boolean onBackPressed() {
+        return true;
+    }
 }
