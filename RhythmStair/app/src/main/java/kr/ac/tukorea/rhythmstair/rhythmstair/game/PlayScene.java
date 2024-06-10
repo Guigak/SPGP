@@ -74,6 +74,7 @@ public class PlayScene extends Scene {
 
         if (state == State.playing) {
             if (stairManager.judgeTimeout()) {
+                character.timeout();
                 endTime = playTime;
                 state = State.fail;
             }
@@ -85,7 +86,7 @@ public class PlayScene extends Scene {
         }
         else {
             if (playTime - endTime > delayTime) {
-                new EndScene().push();
+                new EndScene(state).push();
             }
         }
 

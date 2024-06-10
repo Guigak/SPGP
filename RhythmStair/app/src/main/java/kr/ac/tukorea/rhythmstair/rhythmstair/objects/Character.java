@@ -22,6 +22,8 @@ public class Character implements IGameObject {
     private float animatedTime = 2.0f;
     private float delayTime = 0.5f; // game over
 
+    private boolean isTimeout = false;
+
     public Character(int num) {
         setCharacter(num);
     }
@@ -41,6 +43,11 @@ public class Character implements IGameObject {
         animatedTime = 0.0f;
     }
 
+    public void timeout() {
+        animatedTime = 0.0f;
+        isTimeout = true;
+    }
+
     @Override
     public void update(float elapsedSeconds) {
         animatedTime += elapsedSeconds;
@@ -53,10 +60,6 @@ public class Character implements IGameObject {
         float newDstX = oldX + (Camera.nowX * Stair.width - Camera.nowOffsetX);
         float newDstY = oldY - (Camera.nowY * Stair.height - Camera.nowOffsetY);
 
-        if (PlayScene.state == PlayScene.State.fail) {
-            newDstY += Math.max(0.0f, animatedTime - fullAnimationTime - delayTime);
-        }
-
         if (Camera.oldX <= Camera.nowX) {
             newSrcY = 0;
         }
@@ -64,19 +67,28 @@ public class Character implements IGameObject {
             newSrcY = spriteWidth;
         }
 
-        switch (animationNum) {
-            case 0:
-                newSrcX = animationNum * spriteWidth;
+        if (isTimeout == false) {
+            switch (animationNum) {
+                case 0:
+                    newSrcX = animationNum * spriteWidth;
 
-                newDstX = oldX + (Camera.oldX - Camera.nowX) * Stair.width + (Camera.nowX * Stair.width - Camera.nowOffsetX);
-                newDstY = oldY - (Camera.oldY - Camera.nowY) * Stair.height - (Camera.nowY * Stair.height - Camera.nowOffsetY);
-                break;
-            case 1:
-                newSrcX = animationNum * spriteWidth;
-                break;
-            default:
-                newSrcX = 2 * spriteWidth;
-                break;
+                    newDstX = oldX + (Camera.oldX - Camera.nowX) * Stair.width + (Camera.nowX * Stair.width - Camera.nowOffsetX);
+                    newDstY = oldY - (Camera.oldY - Camera.nowY) * Stair.height - (Camera.nowY * Stair.height - Camera.nowOffsetY);
+                    break;
+                case 1:
+                    newSrcX = animationNum * spriteWidth;
+                    break;
+                default:
+                    newSrcX = 2 * spriteWidth;
+                    break;
+            }
+        }
+        else {
+            newSrcX = 2 * spriteWidth;
+        }
+
+        if (PlayScene.state == PlayScene.State.fail) {
+            newDstY += Math.max(0.0f, animatedTime - fullAnimationTime - delayTime);
         }
 
         sprite.setSrcRect(newSrcX, newSrcY, spriteWidth, spriteWidth);
