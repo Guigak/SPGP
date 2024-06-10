@@ -3,13 +3,12 @@ package kr.ac.tukorea.rhythmstair.rhythmstair.game;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.rhythmstair.R;
-import kr.ac.tukorea.rhythmstair.framework.objects.HorizontalScrollableSprites;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
 import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Background;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Camera;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Character;
-import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Stair;
+import kr.ac.tukorea.rhythmstair.rhythmstair.objects.JudgeSprite;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.StairManager;
 
 public class PlayScene extends Scene {
@@ -23,10 +22,12 @@ public class PlayScene extends Scene {
 
     private Character character = null;
 
+    private JudgeSprite judgeSprite = null;
+
     private StairManager stairManager = null;
 
     public enum Layer {
-        bg, cam, character, manager, COUNT
+        bg, cam, character, judgement, manager, COUNT
     }
 
     public PlayScene(int map, int diff, int chr) {
@@ -38,6 +39,9 @@ public class PlayScene extends Scene {
 
         character = new Character(chr);
         add(Layer.character, character);
+
+        judgeSprite = new JudgeSprite(0.5f, 0.2f, 0.4f, 0.05f);
+        add(Layer.judgement, judgeSprite);
 
         stairManager = new StairManager();
         background.setStairsNum(stairManager.loadStairs(map, diff));
@@ -78,7 +82,9 @@ public class PlayScene extends Scene {
                 camera.turn();
             }
 
-            if (stairManager.judge() == StairManager.Judge.MISS) {
+            StairManager.Judgement judgement = stairManager.judge();
+            judgeSprite.setJudgement(judgement);
+            if (judgement == StairManager.Judgement.MISS) {
                 new EndScene().push();
             }
         }
