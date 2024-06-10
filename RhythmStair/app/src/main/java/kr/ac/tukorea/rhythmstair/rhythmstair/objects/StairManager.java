@@ -1,14 +1,9 @@
 package kr.ac.tukorea.rhythmstair.rhythmstair.objects;
 
-import android.content.ClipboardManager;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -99,28 +94,28 @@ public class StairManager implements IGameObject {
         return stairNum - 1;
     }
 
-    public enum Judge {
+    public enum Judgement {
         PERFECT, LATE, EARLY, MISS
     }
 
-    public Judge judge() {
+    public Judgement judge() {
         if (stairs.get(Camera.nowY).getNumX() != Camera.nowX) {
-            return Judge.MISS;
+            return Judgement.MISS;
         }
 
         float stairTime = stairs.get(Camera.nowY).getTime();
 
         if (stairTime >= PlayScene.playTime - perfectTime && stairTime <= PlayScene.playTime + perfectTime) {
-            return Judge.PERFECT;
+            return Judgement.PERFECT;
         }
         else if (stairTime >= PlayScene.playTime - farTime && stairTime <= PlayScene.playTime - perfectTime) {
-            return Judge.EARLY;
+            return Judgement.LATE;
         }
         else if (stairTime >= PlayScene.playTime + perfectTime && stairTime <= PlayScene.playTime + farTime) {
-            return Judge.LATE;
+            return Judgement.EARLY;
         }
         else {
-            return Judge.MISS;
+            return Judgement.MISS;
         }
     }
 
