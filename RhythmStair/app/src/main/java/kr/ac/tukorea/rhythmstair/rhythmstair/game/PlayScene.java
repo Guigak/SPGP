@@ -14,7 +14,14 @@ import kr.ac.tukorea.rhythmstair.rhythmstair.objects.StairManager;
 public class PlayScene extends Scene {
     private static final String TAG = PlayScene.class.getSimpleName();
 
+    public enum State {
+        playing, fail, clear
+    }
+    public static State state = State.playing;
+
     public static float playTime = 0.0f;
+    private float endTime = 0.0f;
+    private static final float delayTime = 2.0f;    // game over
 
     private Background background = null;
 
@@ -65,8 +72,21 @@ public class PlayScene extends Scene {
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
 
-        if (stairManager.judgeTimeout()) {
-            new EndScene().push();
+        if (state == State.playing) {
+            if (stairManager.judgeTimeout()) {
+                endTime = playTime;
+                state = State.fail;
+            }
+
+            if (stairManager.checkEnd()) {
+                endTime = playTime;
+                state = State.clear;
+            }
+        }
+        else {
+            if (playTime - endTime > delayTime) {
+                new EndScene().push();
+            }
         }
 
         playTime += elapsedSeconds;
@@ -74,6 +94,10 @@ public class PlayScene extends Scene {
 
     @Override
     public boolean onTouch(MotionEvent event) {
+        if (state != State.playing) {
+            return true;
+        }
+
         float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());
         float inputX = tempPoints[0] / Metrics.width;
 
@@ -90,7 +114,8 @@ public class PlayScene extends Scene {
             StairManager.Judgement judgement = stairManager.judge();
             judgeSprite.setJudgement(judgement);
             if (judgement == StairManager.Judgement.MISS) {
-                new EndScene().push();
+                endTime = playTime;
+                state = State.fail;
             }
         }
         return true;
@@ -98,6 +123,7 @@ public class PlayScene extends Scene {
 
     @Override
     protected void onStart() {
+        state = State.playing;
         playTime = 0.0f;
     }
 }

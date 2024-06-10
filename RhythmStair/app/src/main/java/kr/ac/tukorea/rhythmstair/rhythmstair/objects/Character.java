@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import kr.ac.tukorea.rhythmstair.R;
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
+import kr.ac.tukorea.rhythmstair.rhythmstair.game.PlayScene;
 
 public class Character implements IGameObject {
     private static String TAG = Character.class.getSimpleName();
@@ -17,7 +18,9 @@ public class Character implements IGameObject {
     private float width = 0.4f, height = 0.3f;
 
     private float animationFPS = 10.0f;
+    private float fullAnimationTime = 2.0f / animationFPS;
     private float animatedTime = 2.0f;
+    private float delayTime = 0.5f; // game over
 
     public Character(int num) {
         setCharacter(num);
@@ -49,6 +52,10 @@ public class Character implements IGameObject {
 
         float newDstX = oldX + (Camera.nowX * Stair.width - Camera.nowOffsetX);
         float newDstY = oldY - (Camera.nowY * Stair.height - Camera.nowOffsetY);
+
+        if (PlayScene.state == PlayScene.State.fail) {
+            newDstY += Math.max(0.0f, animatedTime - fullAnimationTime - delayTime);
+        }
 
         if (Camera.oldX <= Camera.nowX) {
             newSrcY = 0;

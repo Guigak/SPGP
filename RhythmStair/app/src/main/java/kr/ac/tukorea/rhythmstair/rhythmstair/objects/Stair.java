@@ -85,8 +85,9 @@ public class Stair implements IGameObject {
         float newX = oldX - Camera.nowOffsetX;
         float newY = oldY + Camera.nowOffsetY;
 
-        totalElapsedSeconds = PlayScene.playTime;
-        //totalElapsedSeconds += elapsedSeconds;
+        if (PlayScene.state != PlayScene.State.fail) {
+            totalElapsedSeconds = PlayScene.playTime;
+        }
 
         if (totalElapsedSeconds < time - delayTime) {
             paint.setAlpha(0);
