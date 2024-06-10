@@ -64,6 +64,11 @@ public class PlayScene extends Scene {
     @Override
     public void update(float elapsedSeconds) {
         super.update(elapsedSeconds);
+
+        if (stairManager.judgeTimeout()) {
+            new EndScene().push();
+        }
+
         playTime += elapsedSeconds;
     }
 

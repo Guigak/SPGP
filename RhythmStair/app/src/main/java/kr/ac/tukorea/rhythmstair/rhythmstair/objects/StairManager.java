@@ -119,6 +119,14 @@ public class StairManager implements IGameObject {
         }
     }
 
+    public boolean judgeTimeout() {
+        if (Camera.nowY + 1 >= stairs.size()) {
+            return false;
+        }
+
+        return stairs.get(Camera.nowY + 1).getTime() + farTime < PlayScene.playTime;
+    }
+
     @Override
     public void update(float elapsedSeconds) {
         for (int i = 0; i < stairs.size(); ++i) {
