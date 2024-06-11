@@ -3,6 +3,7 @@ package kr.ac.tukorea.rhythmstair.rhythmstair.game;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.rhythmstair.R;
+import kr.ac.tukorea.rhythmstair.framework.resource.SoundPlayer;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
 import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
 import kr.ac.tukorea.rhythmstair.rhythmstair.objects.Background;
@@ -18,6 +19,8 @@ public class PlayScene extends Scene {
         playing, fail, clear
     }
     public static State state = State.playing;
+
+    private int map = 0;
 
     public static float playTime = 0.0f;
     private float endTime = 0.0f;
@@ -42,6 +45,8 @@ public class PlayScene extends Scene {
     }
 
     public PlayScene(int map, int diff, int chr) {
+        this.map = map;
+
         initLayers(Layer.COUNT);
 
         addBackground(map);
@@ -145,5 +150,24 @@ public class PlayScene extends Scene {
     protected void onStart() {
         state = State.playing;
         playTime = 0.0f;
+        playSound(map);
+    }
+
+    private void playSound(int map) {
+        switch (map) {
+            case 0:
+                SoundPlayer.playSound(R.raw.hyperspace_rhythm);
+                break;
+            case 1:
+                SoundPlayer.playSound(R.raw.time_shift);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        SoundPlayer.stopSound();
     }
 }
