@@ -2,6 +2,7 @@ package kr.ac.tukorea.rhythmstair.rhythmstair.objects;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import kr.ac.tukorea.rhythmstair.R;
 import kr.ac.tukorea.rhythmstair.framework.interfaces.IGameObject;
@@ -20,7 +21,7 @@ public class Stair implements IGameObject {
     private float totalElapsedSeconds = 0.0f;
     private float delayTime = 1.0f;
 
-    private int numX = 0;
+    private int numX = 0, numY = 0;
     private float oldX = 0.5f, oldY = 0.8f;
 
     public enum Maps {
@@ -29,10 +30,15 @@ public class Stair implements IGameObject {
 
     public Stair(int numY, int numX, int map, int type, float time) {
         this.numX = numX;
+        this.numY = numY;
         oldX = oldX + numX * width;
         oldY = oldY - numY * height;
         setResourceId(map, type);
         this.time = time;
+    }
+
+    public void printSelf() {
+        Log.d(TAG, numY + " " + numX + " " + time);
     }
 
     private void setResourceId(int map, int type) {

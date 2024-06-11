@@ -71,9 +71,12 @@ public class MainScene extends Scene {
 
     private HorizontalScrollableSprites targetSprites = null;
 
+    private int count = 0;
+
     @Override
     public boolean onTouch(MotionEvent event) {
         float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());
+        float inputX = tempPoints[0] / Metrics.width;
         float inputY = tempPoints[1] / Metrics.height;
 
         switch (event.getAction()) {
@@ -91,7 +94,18 @@ public class MainScene extends Scene {
                     return charactersSprites.onTouch(event);
                 }
 
-                return playButton.onTouch(event);
+                if (inputX < 0.1f) {
+                    count += 1;
+
+                    if (count >= 5) {
+                        new MadeScene().push();
+                    }
+
+                    return true;
+                }
+                else {
+                    return playButton.onTouch(event);
+                }
             case MotionEvent.ACTION_MOVE:
                 if (targetSprites == null) {
                     return true;
@@ -109,6 +123,11 @@ public class MainScene extends Scene {
         }
 
         return false;
+    }
+
+    @Override
+    protected void onStart() {
+        count = 0;
     }
 
     @Override

@@ -2,6 +2,7 @@ package kr.ac.tukorea.rhythmstair.rhythmstair.objects;
 
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +23,18 @@ public class StairManager implements IGameObject {
     private float farTime = 0.5f;
 
     public StairManager() {
+    }
+
+    public void addStair(int direction, float time) {
+        stairs.add(new Stair(Camera.nowY, direction, 0, 0, time));
+    }
+
+    public void printStairs() {
+        for (int i = 0; i < stairs.size(); ++i) {
+            Stair targetStair = stairs.get(i);
+
+            targetStair.printSelf();
+        }
     }
 
     public int loadStairs(int map, int diff) {
