@@ -76,6 +76,10 @@ public class MadeScene extends Scene {
         float inputX = tempPoints[0] / Metrics.width;
         float inputY = tempPoints[1] / Metrics.height;
 
+        if (inputY < 0.0f) {
+            return true;
+        }
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (inputY < 0.2f) {
                 state = State.clear;

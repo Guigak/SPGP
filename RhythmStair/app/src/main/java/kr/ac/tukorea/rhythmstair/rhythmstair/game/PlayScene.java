@@ -108,38 +108,44 @@ public class PlayScene extends Scene {
             return true;
         }
 
-        float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());
-        float inputX = tempPoints[0] / Metrics.width;
+        for (int i = 0; i < event.getPointerCount(); ++i) {
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (inputX > 0.5f) {
-                character.move();
-                camera.move();
-            }
-            else {
-                character.move();
-                camera.turn();
+            float[] tempPoints = Metrics.fromScreen(event.getX(i), event.getY(i));
+            float inputX = tempPoints[0] / Metrics.width;
+            float inputY = tempPoints[1] / Metrics.height;
+
+            if (inputY < 0.0f || inputY > 1.0f) {
+                break;
             }
 
-            StairManager.Judgement judgement = stairManager.judge();
-            judgeSprite.setJudgement(judgement);
-            if (judgement == StairManager.Judgement.MISS) {
-                endTime = playTime;
-                state = State.fail;
-            }
-            else {
-                switch (judgement) {
-                    case PERFECT:
-                        perfectNum += 1;
-                        break;
-                    case EARLY:
-                        earlyNum += 1;
-                        break;
-                    case LATE:
-                        lateNum += 1;
-                        break;
-                    default:
-                        break;
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (inputX > 0.5f) {
+                    character.move();
+                    camera.move();
+                } else {
+                    character.move();
+                    camera.turn();
+                }
+
+                StairManager.Judgement judgement = stairManager.judge();
+                judgeSprite.setJudgement(judgement);
+                if (judgement == StairManager.Judgement.MISS) {
+                    endTime = playTime;
+                    state = State.fail;
+                } else {
+                    switch (judgement) {
+                        case PERFECT:
+                            perfectNum += 1;
+                            break;
+                        case EARLY:
+                            earlyNum += 1;
+                            break;
+                        case LATE:
+                            lateNum += 1;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

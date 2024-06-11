@@ -8,6 +8,7 @@ import kr.ac.tukorea.rhythmstair.framework.objects.DiagonalScrollBackground;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
 import kr.ac.tukorea.rhythmstair.framework.resource.SoundPlayer;
+import kr.ac.tukorea.rhythmstair.framework.view.Metrics;
 
 public class StartScene extends Scene {
     private static final String TAG = StartScene.class.getSimpleName();
@@ -19,6 +20,7 @@ public class StartScene extends Scene {
     public StartScene() {
         initLayers(Layer.COUNT);
 
+        add(Layer.bg, new Sprite(R.mipmap.white_bg, 0.5f, 0.5f, 1.0f, 1.0f));
         add(Layer.bg, new DiagonalScrollBackground(R.mipmap.start_bg, 0.2f));
 
         add(Layer.text, new Sprite(R.mipmap.title,
@@ -34,6 +36,13 @@ public class StartScene extends Scene {
 
     @Override
     public boolean onTouch(MotionEvent event) {
+        float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());
+        float inputY = tempPoints[1] / Metrics.height;
+
+        if (inputY < 0.0f || inputY > 1.0f) {
+            return true;
+        }
+
         new MainScene().push();
         return true;
     }

@@ -27,7 +27,8 @@ public class MainScene extends Scene {
     private float charactersWidth = 0.5f;
     private float charactersHeight = 0.5f;
 
-    private final Button playButton = new Button(R.mipmap.playbutton, 0.5f, 0.9f, 0.3f, 0.1f) {
+    private float buttonWidth = 0.3f;
+    private final Button playButton = new Button(R.mipmap.playbutton, 0.5f, 0.9f, buttonWidth, 0.1f) {
         @Override
         public boolean onTouch(MotionEvent event) {
             new PlayScene(titleSprites.getCurrNum(), difficultySprites.getCurrNum(), charactersSprites.getCurrNum()).push();
@@ -36,11 +37,13 @@ public class MainScene extends Scene {
     };
 
     public enum Layer {
-        titles, difficulty, characters, button, COUNT
+        bg, titles, difficulty, characters, button, COUNT
     }
 
     public MainScene() {
         initLayers(Layer.COUNT);
+
+        add(Layer.bg, new Sprite(R.mipmap.white_bg, 0.5f, 0.5f, 1.0f, 1.0f));
 
         titleSprites.add(R.mipmap.hr_title);
         titleSprites.add(R.mipmap.ts_title);
@@ -79,6 +82,10 @@ public class MainScene extends Scene {
         float inputX = tempPoints[0] / Metrics.width;
         float inputY = tempPoints[1] / Metrics.height;
 
+        if (inputY < 0.0f || inputY > 1.0f) {
+            return true;
+        }
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (inputY > titlesPositionY && inputY < titlesPositionY + titlesHeight) {
@@ -103,7 +110,7 @@ public class MainScene extends Scene {
 
                     return true;
                 }
-                else {
+                else if (inputX > 0.5f - buttonWidth && inputX < 0.5f + buttonWidth) {
                     return playButton.onTouch(event);
                 }
             case MotionEvent.ACTION_MOVE:
@@ -132,6 +139,7 @@ public class MainScene extends Scene {
 
     @Override
     protected void onResume() {
+        count = 0;
         SoundPlayer.playSound(R.raw.work_of_a_cat);
     }
 
