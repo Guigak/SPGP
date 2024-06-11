@@ -6,6 +6,7 @@ import kr.ac.tukorea.rhythmstair.R;
 import kr.ac.tukorea.rhythmstair.framework.objects.Button;
 import kr.ac.tukorea.rhythmstair.framework.objects.DissolveSprite;
 import kr.ac.tukorea.rhythmstair.framework.objects.HorizontalScrollableSprites;
+import kr.ac.tukorea.rhythmstair.framework.objects.NumberSprites;
 import kr.ac.tukorea.rhythmstair.framework.objects.Sprite;
 import kr.ac.tukorea.rhythmstair.framework.resource.SoundPlayer;
 import kr.ac.tukorea.rhythmstair.framework.scene.Scene;
@@ -15,15 +16,17 @@ public class EndScene extends Scene {
     private static final String TAG = EndScene.class.getSimpleName();
 
     public enum Layer {
-        bg, text, COUNT
+        bg, numbers, text, COUNT
     }
 
-    public EndScene(PlayScene.State state) {
+    public EndScene(PlayScene.State state, int perfect, int early, int late) {
         initLayers(Layer.COUNT);
 
         addBackground(state);
 
-        add(Layer.text, new DissolveSprite(R.mipmap.touch_screen, 0.5f, 0.9f, 0.5f, 0.1f, 0.5f));
+        addNumbers(perfect, early, late);
+
+        add(Layer.text, new DissolveSprite(R.mipmap.touch_screen, 0.5f, 0.9f, 0.5f, 0.05f, 0.25f));
     }
 
     private void addBackground(PlayScene.State state) {
@@ -37,6 +40,12 @@ public class EndScene extends Scene {
             default:
                 break;
         }
+    }
+
+    private void addNumbers(int perfect, int early, int late) {
+        add(Layer.numbers, new NumberSprites(R.mipmap.number_sprites, 0.5f, 0.4f, 0.1f, 0.1f, perfect));
+        add(Layer.numbers, new NumberSprites(R.mipmap.number_sprites, 0.5f, 0.6f, 0.1f, 0.1f, early));
+        add(Layer.numbers, new NumberSprites(R.mipmap.number_sprites, 0.5f, 0.8f, 0.1f, 0.1f, late));
     }
 
     @Override

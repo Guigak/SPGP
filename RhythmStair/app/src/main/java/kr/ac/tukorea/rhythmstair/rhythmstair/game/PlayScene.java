@@ -33,6 +33,10 @@ public class PlayScene extends Scene {
 
     private StairManager stairManager = null;
 
+    private int perfectNum = 0;
+    private int earlyNum = 0;
+    private int lateNum = 0;
+
     public enum Layer {
         bg, cam, character, judgement, manager, COUNT
     }
@@ -86,7 +90,7 @@ public class PlayScene extends Scene {
         }
         else {
             if (playTime - endTime > delayTime) {
-                new EndScene(state).push();
+                new EndScene(state, perfectNum, earlyNum, lateNum).push();
             }
         }
 
@@ -117,6 +121,21 @@ public class PlayScene extends Scene {
             if (judgement == StairManager.Judgement.MISS) {
                 endTime = playTime;
                 state = State.fail;
+            }
+            else {
+                switch (judgement) {
+                    case PERFECT:
+                        perfectNum += 1;
+                        break;
+                    case EARLY:
+                        earlyNum += 1;
+                        break;
+                    case LATE:
+                        lateNum += 1;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         return true;
