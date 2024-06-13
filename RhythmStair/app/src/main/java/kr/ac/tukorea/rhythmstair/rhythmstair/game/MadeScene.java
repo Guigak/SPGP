@@ -38,8 +38,8 @@ public class MadeScene extends Scene {
         cam, character, manager, COUNT
     }
 
-    public MadeScene() {
-        this.map = 0;
+    public MadeScene(int map) {
+        this.map = map;
 
         initLayers(Layer.COUNT);
 
@@ -72,39 +72,62 @@ public class MadeScene extends Scene {
             return true;
         }
 
-        float[] tempPoints = Metrics.fromScreen(event.getX(), event.getY());
-        float inputX = tempPoints[0] / Metrics.width;
-        float inputY = tempPoints[1] / Metrics.height;
+        int count = event.getPointerCount();
 
-        if (inputY < 0.0f) {
-            return true;
+        float[] tempPoints;
+        float inputX;
+        float inputY;
+
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+        case MotionEvent.ACTION_DOWN:
+            tempPoints = Metrics.fromScreen(event.getX(0), event.getY(0));
+            inputX = tempPoints[0] / Metrics.width;
+            inputY = tempPoints[1] / Metrics.height;
+
+            processTouchEvent(inputX, inputY);
+            break;
+        case MotionEvent.ACTION_POINTER_DOWN:
+            for (int i = 1; i < count; ++i) {
+                tempPoints = Metrics.fromScreen(event.getX(0), event.getY(0));
+                inputX = tempPoints[0] / Metrics.width;
+                inputY = tempPoints[1] / Metrics.height;
+
+                processTouchEvent(inputX, inputY);
+            }
+            break;
         }
 
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (inputY < 0.2f) {
-                state = State.clear;
-                endTime = playTime;
-
-                return true;
-            }
-
-            if (inputX > 0.5f) {
-                character.move();
-                camera.move();
-                stairManager.addStair(0, playTime);
-            }
-            else {
-                character.move();
-                camera.turn();
-                stairManager.addStair(1, playTime);
-            }
-        }
         return true;
+    }
+
+    private void processTouchEvent(float x, float y) {
+        if (y < 0.0f) {
+            return;
+        }
+
+        if (y < 0.2f) {
+            state = State.clear;
+            endTime = playTime;
+
+            return;
+        }
+
+        if (x > 0.5f) {
+            character.move();
+            camera.move();
+            stairManager.addStair(0, playTime);
+        }
+        else {
+            character.move();
+            camera.turn();
+            stairManager.addStair(1, playTime);
+        }
     }
 
     @Override
     protected void onStart() {
         state = State.playing;
+        endTime = 0.0f;
         playTime = 0.0f;
         playSound(map);
     }
@@ -115,7 +138,7 @@ public class MadeScene extends Scene {
                 SoundPlayer.playSound(R.raw.hyperspace_rhythm);
                 break;
             case 1:
-                SoundPlayer.playSound(R.raw.time_shift);
+                SoundPlayer.playSound(R.raw.time_shift_edit);
                 break;
             default:
                 break;

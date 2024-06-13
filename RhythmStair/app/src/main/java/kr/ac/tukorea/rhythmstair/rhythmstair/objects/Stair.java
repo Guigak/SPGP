@@ -38,7 +38,7 @@ public class Stair implements IGameObject {
     }
 
     public void printSelf() {
-        Log.d(TAG, numY + " " + numX + " " + time);
+        Log.d(TAG, numX + " " + time);
     }
 
     private void setResourceId(int map, int type) {

@@ -108,48 +108,66 @@ public class PlayScene extends Scene {
             return true;
         }
 
-        for (int i = 0; i < event.getPointerCount(); ++i) {
+        int count = event.getPointerCount();
 
-            float[] tempPoints = Metrics.fromScreen(event.getX(i), event.getY(i));
-            float inputX = tempPoints[0] / Metrics.width;
-            float inputY = tempPoints[1] / Metrics.height;
+        float[] tempPoints;
+        float inputX;
+        float inputY;
 
-            if (inputY < 0.0f || inputY > 1.0f) {
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                tempPoints = Metrics.fromScreen(event.getX(0), event.getY(0));
+                inputX = tempPoints[0] / Metrics.width;
+                inputY = tempPoints[1] / Metrics.height;
+
+                processTouchEvent(inputX, inputY);
                 break;
-            }
+            case MotionEvent.ACTION_POINTER_DOWN:
+                for (int i = 1; i < count; ++i) {
+                    tempPoints = Metrics.fromScreen(event.getX(0), event.getY(0));
+                    inputX = tempPoints[0] / Metrics.width;
+                    inputY = tempPoints[1] / Metrics.height;
 
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (inputX > 0.5f) {
-                    character.move();
-                    camera.move();
-                } else {
-                    character.move();
-                    camera.turn();
+                    processTouchEvent(inputX, inputY);
                 }
-
-                StairManager.Judgement judgement = stairManager.judge();
-                judgeSprite.setJudgement(judgement);
-                if (judgement == StairManager.Judgement.MISS) {
-                    endTime = playTime;
-                    state = State.fail;
-                } else {
-                    switch (judgement) {
-                        case PERFECT:
-                            perfectNum += 1;
-                            break;
-                        case EARLY:
-                            earlyNum += 1;
-                            break;
-                        case LATE:
-                            lateNum += 1;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+                break;
         }
         return true;
+    }
+
+    private void processTouchEvent(float x, float y) {
+        if (x < 0.0f || y > 1.0f) {
+            return;
+        }
+
+        if (x > 0.5f) {
+            character.move();
+            camera.move();
+        } else {
+            character.move();
+            camera.turn();
+        }
+
+        StairManager.Judgement judgement = stairManager.judge();
+        judgeSprite.setJudgement(judgement);
+        if (judgement == StairManager.Judgement.MISS) {
+            endTime = playTime;
+            state = State.fail;
+        } else {
+            switch (judgement) {
+                case PERFECT:
+                    perfectNum += 1;
+                    break;
+                case EARLY:
+                    earlyNum += 1;
+                    break;
+                case LATE:
+                    lateNum += 1;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
@@ -165,7 +183,7 @@ public class PlayScene extends Scene {
                 SoundPlayer.playSound(R.raw.hyperspace_rhythm);
                 break;
             case 1:
-                SoundPlayer.playSound(R.raw.time_shift);
+                SoundPlayer.playSound(R.raw.time_shift_edit);
                 break;
             default:
                 break;

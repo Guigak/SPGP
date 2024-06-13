@@ -105,7 +105,7 @@ public class MainScene extends Scene {
                     count += 1;
 
                     if (count >= 5) {
-                        new MadeScene().push();
+                        new MadeScene(titleSprites.getCurrNum()).push();
                     }
 
                     return true;
